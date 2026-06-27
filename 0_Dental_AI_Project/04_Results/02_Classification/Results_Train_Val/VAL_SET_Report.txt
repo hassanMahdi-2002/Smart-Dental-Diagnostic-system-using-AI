@@ -1,0 +1,15 @@
+                     precision    recall  f1-score   support
+
+Tooth Discoloration       0.84      0.93      0.88       558
+         Gingivitis       0.88      0.93      0.90       869
+            Healthy       0.95      1.00      0.97        18
+         Hypodontia       0.88      0.96      0.92       359
+        Mouth Ulcer       0.96      0.98      0.97       425
+           Calculus       0.88      0.93      0.90       670
+             cancer       0.93      0.96      0.94       147
+             Caries       0.86      0.91      0.88       744
+
+          micro avg       0.88      0.93      0.91      3790
+          macro avg       0.90      0.95      0.92      3790
+       weighted avg       0.88      0.93      0.91      3790
+        samples avg       0.92      0.95      0.92      3790
