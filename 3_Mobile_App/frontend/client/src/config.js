@@ -4,5 +4,5 @@
 //const API_BASE_URL = 'http://localhost:5000'; // بتاع الموبايل;
 //const API_BASE_URL = 'http://10.130.170.182:5000'; // بتاع اللابتوب
 //
-const API_BASE_URL = 'https://smart-dental-diagnostic-system-usin-alpha.vercel.app';
+const API_BASE_URL = '';
 export default API_BASE_URL;
