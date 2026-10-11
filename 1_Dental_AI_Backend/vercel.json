@@ -9,12 +9,17 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "index.js",
+      "method": "OPTIONS",
+      "status": 200,
       "headers": {
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization, x-auth-token"
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Authorization, x-auth-token"
       }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "index.js"
     }
   ]
 }
