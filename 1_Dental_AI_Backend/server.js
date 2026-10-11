@@ -49,8 +49,20 @@ app.use('/api/auth', authRoutes);
 app.use(notFound); 
 app.use(errorHandler); 
 
-const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// const PORT = process.env.PORT || 5000;
+// تشغيل محلي فقط في حال لم تكن على Vercel
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+// السطر الأهم ليعمل Express كـ Serverless Function على Vercel:
+module.exports = app;
+
+
+// app.listen(PORT, () => {
+//     console.log(`Server is running on http://localhost:${PORT}`);
+// });
