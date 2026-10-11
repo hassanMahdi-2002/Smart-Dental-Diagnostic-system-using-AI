@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import API_BASE_URL from '../config';
 
-import { User, Mail, Phone, MapPin, Activity, Calendar, Clock, AlertTriangle, Trash2, Edit3, X, Save } from 'lucide-react';
+import { Mail, Phone, MapPin, Activity, Calendar, Clock, AlertTriangle, Trash2, Edit3, X, Save } from 'lucide-react';
 
 function Profile() {
   const [user, setUser] = useState(null);

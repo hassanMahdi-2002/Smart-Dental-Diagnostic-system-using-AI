@@ -3,9 +3,13 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from pathlib import Path
 
-SOURCE_IMAGES_DIR = r"D:\Dental_AI_Project\01_Data\03_Classification Data\00_Row_Data"
-OUTPUT_CSV_DIR = r"D:\Dental_AI_Project\01_Data\03_Classification Data\01_Final CSV"
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, "..", "..", ".."))
+
+SOURCE_IMAGES_DIR = os.path.join(PROJECT_ROOT, "01_Data", "03_Classification Data", "00_Row_Data")
+OUTPUT_CSV_DIR = os.path.join(PROJECT_ROOT, "01_Data", "03_Classification Data", "01_Final CSV")
 os.makedirs(OUTPUT_CSV_DIR, exist_ok=True)
+
 TRAIN_RATIO = 0.60
 VAL_RATIO   = 0.20
 TEST_RATIO  = 0.20

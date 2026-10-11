@@ -8,18 +8,23 @@ from torchvision import transforms, models
 from PIL import Image
 import numpy as np
 
-TRAIN_CSV = r"D:\Dental_AI_Project\01_Data\03_Classification Data\01_Final CSV\Train_dataset.csv"
-VAL_CSV   = r"D:\Dental_AI_Project\01_Data\03_Classification Data\01_Final CSV\Val_dataset.csv"
 
-TRAIN_IMG_DIR = r"D:\Dental_AI_Project\01_Data\03_Classification Data\02_Presentation_Data\Train_Set_Final"
-VAL_IMG_DIR   = r"D:\Dental_AI_Project\01_Data\03_Classification Data\02_Presentation_Data\Val_Set_Final"
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, "..", "..", ".."))
 
-SAVE_MODEL_DIR = r"D:\Dental_AI_Project\02_Models\02_Classification"
+TRAIN_CSV = os.path.join(PROJECT_ROOT, "01_Data", "03_Classification Data", "01_Final CSV", "Train_dataset.csv")
+VAL_CSV   = os.path.join(PROJECT_ROOT, "01_Data", "03_Classification Data", "01_Final CSV", "Val_dataset.csv")
+
+TRAIN_IMG_DIR = os.path.join(PROJECT_ROOT, "01_Data", "03_Classification Data", "02_Presentation_Data", "Train_Set_Final")
+VAL_IMG_DIR   = os.path.join(PROJECT_ROOT, "01_Data", "03_Classification Data", "02_Presentation_Data", "Val_Set_Final")
+
+SAVE_MODEL_DIR = os.path.join(PROJECT_ROOT, "02_Models", "02_Classification")
 os.makedirs(SAVE_MODEL_DIR, exist_ok=True)
 SAVE_MODEL_PATH = os.path.join(SAVE_MODEL_DIR, "Dental_Model_Final.pth")
 
 BATCH_SIZE = 32
 LEARNING_RATE = 1e-4
+NUM_EPOCHS = 10
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class DentalDataset(Dataset):
@@ -37,8 +42,9 @@ class DentalDataset(Dataset):
         img_path = os.path.join(self.root_dir, file_name)
         try:
             image = Image.open(img_path).convert("RGB")
-        except:
-            print(f"Warning: Could not open {img_path}, using black image.")
+
+        except Exception as e:
+            print(f"Warning: Could not open {img_path}. Error: {e}. Using black image.")
             image = Image.new('RGB', (224, 224))
         
         labels = torch.tensor(self.annotations.iloc[index][self.labels_cols].values.astype(float), dtype=torch.float32)
@@ -94,7 +100,7 @@ def train_engine():
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
     print("Starting Training Loop...")
-    NUM_EPOCHS = 10
+    
     best_acc = 0.0
 
     for epoch in range(NUM_EPOCHS):

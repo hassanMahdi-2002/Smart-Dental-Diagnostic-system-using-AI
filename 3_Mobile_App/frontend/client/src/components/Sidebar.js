@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import API_BASE_URL from '../config';
+//import API_BASE_URL from '../config';
 
-import { LayoutDashboard, MessageSquare, Users, LogOut, Stethoscope, Info, Menu, X } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, Users, LogOut, Stethoscope, Menu, X } from 'lucide-react';
 
 function Sidebar() {
   // حالة التحكم في القائمة (مفتوحة أو مقفولة) - الديفولت مفتوحة

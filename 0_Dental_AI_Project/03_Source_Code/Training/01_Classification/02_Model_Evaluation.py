@@ -8,13 +8,17 @@ import numpy as np
 import os
 from sklearn.metrics import classification_report, multilabel_confusion_matrix, roc_curve, auc
 import matplotlib.pyplot as plt
-import seaborn as sns
+import seaborn as 
 
-TEST_CSV = r"D:\Dental_AI_Project\01_Data\03_Classification Data\01_Final CSV\Test_dataset.csv"
-TEST_IMG_DIR = r"D:\Dental_AI_Project\01_Data\03_Classification Data\02_Presentation_Data\Test_Set_Final"
-MODEL_PATH = r"D:\Dental_AI_Project\02_Models\02_Classification\Dental_Model_Final.pth"
-OUTPUT_DIR = r"D:\Dental_AI_Project\04_Results\02_Classification\Results_Test"
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, "..", "..", ".."))
+
+TEST_CSV = os.path.join(PROJECT_ROOT, "01_Data", "03_Classification Data", "01_Final CSV", "Test_dataset.csv")
+TEST_IMG_DIR = os.path.join(PROJECT_ROOT, "01_Data", "03_Classification Data", "02_Presentation_Data", "Test_Set_Final")
+MODEL_PATH = os.path.join(PROJECT_ROOT, "02_Models", "02_Classification", "Dental_Model_Final.pth")
+OUTPUT_DIR = os.path.join(PROJECT_ROOT, "04_Results", "02_Classification", "Results_Test")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 BATCH_SIZE = 32
 
@@ -35,8 +39,9 @@ class DentalDataset(Dataset):
         
         try:
             image = Image.open(img_path).convert("RGB")
-        except:
-            print(f"Warning: Could not open {img_path}, using black image.")
+        except Exception as e:
+            print(f"Warning: Could not open {img_path}. Error: {e}. Using black image.")
+            
             image = Image.new('RGB', (224, 224))
             
         labels = torch.tensor(self.annotations.iloc[index][self.labels_cols].values.astype(float), dtype=torch.float32)

@@ -1,5 +1,3 @@
-# import warnings
-# warnings.filterwarnings("ignore", category=FutureWarning)
 import google.generativeai as genai
 import os
 import json
@@ -18,7 +16,7 @@ class DentalNLP:
                 {"category": "HARM_CATEGORY_DANGEROUS_CONTENT","threshold": "BLOCK_NONE"},
             ]
             generation_config = {
-                "temperature": 0.2, # تقليل العشوائية لضمان دقة طبية أعلى
+                "temperature": 0.2, 
                 "response_mime_type": "application/json",
             }
             self.model = genai.GenerativeModel(
@@ -34,13 +32,6 @@ class DentalNLP:
                 they should be considered in relation to the current dental condition.
                 3. Always recommend a visit to the clinic for a final diagnosis.
                 """
-                # """
-                # أنت طبيب أسنان خبير ومساعد ذكي.
-                # دورك هو تحليل بيانات التشخيص وكتابة تقارير طبية دقيقة، والرد على أسئلة المرضى.
-                # 1. تحدث باللهجة المصرية المهذبة والمطمئنة (أو العربية الفصحى البسيطة).
-                # 2. عند وجود أمراض مزمنة (سكري، ضغط، سيولة)، يجب ربطها بالحالة الحالية للأسنان.
-                # 3. دائماً انصح بزيارة العيادة للتشخيص النهائي.
-                # """
             )
 
     def generate_ai_report(self, diseases_found, primary_diagnosis, medical_history="None"):
@@ -74,31 +65,7 @@ class DentalNLP:
         - Details: A detailed explanation of the effects of chronic illnesses on the mouth and gums.
         - Action Plan: Treatment recommendations and specific advice related to the patient's health condition (e.g., "Check blood sugar before the visit").
         - Urgency: (Normal, High, Critical).        
-        """    
-                
-        # """
-        # أنت مساعد طبيب أسنان ذكي.
-        # البيانات المدخلة هي نتيجة تحليل "صورة فوتوغرافية ظاهرية" لأسنان المريض.
-    
-        # النتائج المكتشفة: {diseases_str}
-        # التشخيص الأساسي: {primary_diagnosis}
-        
-        # 🛑 معلومات المريض الصحية (هام جداً):
-        # التاريخ المرضي: "{medical_history}"
-        
-        # تعليمات التقرير:
-        # 1. إذا كان التاريخ المرضي يحتوي على أمراض مزمنة (مثل السكري، الضغط، القلب، سيولة الدم)، يجب ذكر تأثيرها على حالة الأسنان في قسم "Details" و "Action Plan".
-        #    - مثال: لو "سكري": حذر من بطء التئام اللثة وضرورة ضبط السكر قبل الخلع.
-        #    - مثال: لو "ضغط": انصح بإخبار الطبيب لتجنب أنواع بنج معينة.
-        # 2. إذا كان التاريخ المرضي "None" أو "لا يوجد"، تعامل كشخص سليم.
-        # 3. لا تتحدث عن الجذور أو العصب لأنها صورة ظاهرية.
-        
-        # المطلوب: تقرير بصيغة JSON:
-        # - summary: ملخص الحالة (مع ذكر المرض المزمن إن وجد وتأثيره باختصار).
-        # - details: شرح التفاصيل وتأثير الأمراض المزمنة على الفم واللثة.
-        # - action_plan: نصائح علاجية + نصائح خاصة لحالته الصحية (مثل: "قس السكر قبل الزيارة").
-        # - urgency: (Normal, High, Critical).
-        # """
+        """
         try:
             response = self.model.generate_content(prompt)
             report_data = json.loads(response.text)
@@ -127,37 +94,6 @@ class DentalNLP:
                 "Action_Plan": "الرجاء مراجعة الطبيب للفحص السريري.",
                 "Urgency": "Normal"
             }
-# -----------------------------------------------------------
-        # try:
-        #     response = self.model.generate_content(prompt)
-        #     text_response = response.text.replace('```json', '').replace('```', '').strip()
-            
-        #     if text_response.lower().startswith('json'):
-        #         text_response = text_response[4:].strip()
-
-        #     report_data = json.loads(text_response)
-            
-        #     return {
-        #         "Advice": report_data.get('Summary', report_data.get('summary', 'يرجى مراجعة الطبيب')),
-        #         "Action_Plan": report_data.get('Action Plan', report_data.get('action_plan', 'لا توجد خطة عمل محددة')),
-        #         "Urgency": report_data.get('Urgency', report_data.get('urgency', 'Normal'))
-        #     }
-            
-        #     # return {
-        #     #     "Advice": report_data.get('summary', 'يرجى مراجعة الطبيب'),
-        #     #     "Details": report_data.get('details', ''),
-        #     #     "Action_Plan": report_data.get('action_plan', ''),
-        #     #     "Urgency": report_data.get('urgency', 'Normal')
-        #     # }
-            
-        # except Exception as e:
-        #     print(f"NLP Engine Error: {str(e)}")
-        #     return {
-        #         "Advice": f"تم اكتشاف {primary_diagnosis}. يرجى زيارة الطبيب.",
-        #         "Details": "لم نتمكن من استخراج تفاصيل التقرير بسبب ضغط على خوادم الذكاء الاصطناعي.",
-        #         "Action_Plan": "الرجاء مراجعة العيادة لوضع خطة العلاج المناسبة.",
-        #         "Urgency": "Normal"
-        #     }
 
     def chat_with_context(self, user_question, diagnosis_context, chat_history=[]):
         """

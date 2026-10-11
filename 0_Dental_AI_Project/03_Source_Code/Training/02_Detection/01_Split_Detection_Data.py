@@ -2,9 +2,12 @@ import os
 import shutil
 import random
 
-source_images = r"D:\Dental_AI_Project\01_Data\02_Detection Data\all_images"
-source_labels = r"D:\Dental_AI_Project\01_Data\02_Detection Data\all_labels"
-dest_dir = r"D:\Dental_AI_Project\01_Data\02_Detection Data\dataset_final"
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, "..", "..", ".."))
+
+source_images = os.path.join(PROJECT_ROOT, "01_Data", "02_Detection Data", "all_images")
+source_labels = os.path.join(PROJECT_ROOT, "01_Data", "02_Detection Data", "all_labels")
+dest_dir = os.path.join(PROJECT_ROOT, "01_Data", "02_Detection Data", "dataset_final")
 
 def split_dataset():
     if not os.path.exists(source_images) or not os.path.exists(source_labels):
